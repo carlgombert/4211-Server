@@ -58,7 +58,6 @@ class Client:
 
         server = socket()   
         server.connect((self.LOCAL_HOST, self.LOCAL_PORT)) 
-        print(server.recv(1024).decode())
 
         while(1):
         
