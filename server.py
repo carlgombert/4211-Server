@@ -82,23 +82,9 @@ class Server:
           debugging information to the server's terminal to differentiate
           between multiple clients.
     '''
-    def recv_until_end(self, sock):
-        '''
-        Receives data from the socket until "END" delimiter is found.
-        Returns the received message without the "END" delimiter.
-        '''
-        data = ""
-        while True:
-            chunk = sock.recv(1024).decode()
-            if not chunk:
-                break
-            data += chunk
-            if "END" in data:
-                return data.split("END")[0]
-
     def trivia_game(self, connection_socket, client_address):
         while(1):
-            answer = self.recv_until_end(connection_socket).strip()
+            answer = connection_socket.recv(1024).decode()
             if(answer == "n") or (answer == "N"):
                 connection_socket.close()
                 break
@@ -119,18 +105,18 @@ class Server:
                     question += "\n"
                     num += 1
 
-                connection_socket.send((question + "\nEND").encode())
+                connection_socket.send(question.encode())
 
-                answer = self.recv_until_end(connection_socket).strip()
-                if(answer == questions[str(idx)][2].strip()):
-                    connection_socket.send("Correct! +1 point\nEND".encode())
+                answer = connection_socket.recv(1024).decode()
+                if(answer == questions[str(idx)][2]):
+                    connection_socket.send("Correct! +1 point".encode())
                     score += 1
                 else:
-                    expected_idx = int(questions[str(idx)][2].strip()) - 1
-                    connection_socket.send(("Wrong. Answer: " + questions[str(idx)][1][expected_idx] + "\nEND").encode())
+                    expected_idx = int(questions[str(idx)][2]) - 1
+                    connection_socket.send(("Wrong. Answer: " + questions[str(idx)][1][expected_idx]).encode())
 
                 count+=1
-            connection_socket.send(("score: " + str(score) + "/5\n\nEND").encode())
+            connection_socket.send(("score: " + str(score) + "/5\n").encode())
         print("Shutting down connection")
         return
 

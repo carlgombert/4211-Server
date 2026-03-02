@@ -36,22 +36,12 @@ class Client:
         self.LOCAL_HOST = server_host
         self.LOCAL_PORT = server_port
         return
-    
-    def recv_until_end(self, sock):
-        data = ""
-        while True:
-            chunk = sock.recv(1024).decode()
-            if not chunk:
-                break
-            data += chunk
-            if "END" in data:
-                return data.split("END")[0]
-    
+
     '''
     Connects to the server and facilitates the trivia game with the server
     based on the general interaction described in Section 2 in the 
     instructions.
-    '''    
+    '''
     def run(self):
         print("=====================================================================")
         print("                    University of Minnesota Trivia                   ")
@@ -90,15 +80,15 @@ class Client:
 
             count = 0
             while(count < 5):
-                print (self.recv_until_end(server))
+                print (server.recv(1024).decode())
 
                 print("Answer: ", end = "")
                 st = input()
                 
-                server.send((st + "\nEND").encode())
-                print(self.recv_until_end(server))
+                server.send(st.encode())
+                print(server.recv(1024).decode())
                 count+=1
-            print(self.recv_until_end(server))
+            print(server.recv(1024).decode())
             
             print("\n----------------------------- GAME OVER -----------------------------")
             
