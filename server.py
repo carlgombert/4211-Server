@@ -18,7 +18,7 @@ LOCAL_PORT = 5001
 
 # The server's information when the server runs in the cloud and the clients
 # are remote.
-REMOTE_HOST = "172.31.13.214"
+REMOTE_HOST = "0.0.0.0"
 REMOTE_PORT = 5001
 
 class Server:
