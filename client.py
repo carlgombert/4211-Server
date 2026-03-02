@@ -88,7 +88,7 @@ class Client:
                 server.send(st.encode())
                 print(server.recv(1024).decode())
                 count+=1
-
+            print(server.recv(1024).decode())
             
             print("\n----------------------------- GAME OVER -----------------------------")
             

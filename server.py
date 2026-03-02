@@ -116,6 +116,7 @@ class Server:
                     connection_socket.send(("Wrong. Answer: " + questions[str(idx)][1][expected_idx]).encode())
 
                 count+=1
+            connection_socket.send(("score: " + str(score) + "/5\n").encode())
         print("Shutting down connection")
         return
 
