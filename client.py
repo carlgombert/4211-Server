@@ -95,7 +95,7 @@ class Client:
                 print("Answer: ", end = "")
                 st = input()
                 
-                server.send(st.encode())
+                server.send((st + "\nEND").encode())
                 print(self.recv_until_end(server))
                 count+=1
             print(self.recv_until_end(server))
