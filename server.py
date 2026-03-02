@@ -105,18 +105,18 @@ class Server:
                     question += "\n"
                     num += 1
 
-                connection_socket.send(question.encode())
+                connection_socket.send((question + "\nEND").encode())
 
                 answer = connection_socket.recv(1024).decode()
                 if(answer == questions[str(idx)][2]):
-                    connection_socket.send("Correct! +1 point".encode())
+                    connection_socket.send("Correct! +1 point\nEND".encode())
                     score += 1
                 else:
                     expected_idx = int(questions[str(idx)][2]) - 1
-                    connection_socket.send(("Wrong. Answer: " + questions[str(idx)][1][expected_idx]).encode())
+                    connection_socket.send(("Wrong. Answer: " + questions[str(idx)][1][expected_idx] + "\nEND").encode())
 
                 count+=1
-            connection_socket.send(("score: " + str(score) + "/5\n").encode())
+            connection_socket.send(("score: " + str(score) + "/5\n\nEND").encode())
         print("Shutting down connection")
         return
 
