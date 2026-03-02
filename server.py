@@ -58,6 +58,7 @@ class Server:
         while True:
             client, addr = s.accept()
             print('Got connection from', addr)
+            client.send("connected!".encode())
 
             try:
                 th = threading.Thread(target=self.trivia_game, args=(client, addr))
